@@ -75,6 +75,8 @@ public class XWikiCacheStore extends AbstractXWikiStore
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(XWikiCacheStore.class);
 
+    private static final Logger LOGGER_DEBUG = LoggerFactory.getLogger("xwiki.debug");
+
     /**
      * Used to know if a received event is a local or remote one.
      */
@@ -397,6 +399,13 @@ public class XWikiCacheStore extends AbstractXWikiStore
 
                     if (cachedoc.isNew()) {
                         getPageExistCache().set(key, Boolean.FALSE);
+
+                        if (key.equals("5:xwiki5:XWiki21:XWikiServerExtensions0:")) {
+                            LOGGER_DEBUG.error(org.xwiki.logging.Logger.ROOT_MARKER,
+                                "Hibernate store exist returned false for the document with key [{}]. Input document [{}]",
+                                "5:xwiki5:XWiki21:XWikiServerExtensions0:", doc.getDocumentReferenceWithLocale(),
+                                new Exception());
+                        }
                     } else {
                         getCache().set(key, cachedoc);
 
@@ -756,6 +765,12 @@ public class XWikiCacheStore extends AbstractXWikiStore
 
             boolean result = this.store.exists(doc, context);
             getPageExistCache().set(key, Boolean.valueOf(result));
+
+            if (!result && key.equals("5:xwiki5:XWiki21:XWikiServerExtensions0:")) {
+                LOGGER_DEBUG.error(org.xwiki.logging.Logger.ROOT_MARKER,
+                    "Hibernate store exist returned false for the document with key [{}]. Input document [{}]",
+                    "5:xwiki5:XWiki21:XWikiServerExtensions0:", doc.getDocumentReferenceWithLocale(), new Exception());
+            }
 
             return result;
         } finally {

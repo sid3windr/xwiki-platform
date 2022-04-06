@@ -27,6 +27,21 @@
   <!-- Register SLF4J against the JMX MBean Server automatically -->
   <jmxConfigurator objectName="logback:type=xwiki"/>
 
+  <!-- [xwiki.org start] -->
+  <!-- Special log file for debug purpose -->
+  <appender name="debug" class="ch.qos.logback.core.FileAppender">
+    <file>/var/lib/xwiki/debug/debug.log</file>
+    <append>true</append>
+    <encoder>
+      <pattern>%d [%t] %-5p %-30.30c{2} - %m %n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="xwiki.debug" level="info">
+    <appender-ref ref="debug" />
+  </logger>
+  <!-- [end xwiki.org] -->
+
   <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
     <!-- Direct log messages to stdout -->
     <Target>System.out</Target>
