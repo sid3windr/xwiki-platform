@@ -168,9 +168,9 @@
         event.data.dataValue.filter(new CKEDITOR.htmlParser.filter({
           elements: {
             img: function (element) {
-              const dataWidgetAttribute = element.attributes['data-widget'];
-              const dataCkeUploadIdAttribute = element.attributes['data-cke-upload-id'];
-              const isUploadImageWidget = dataWidgetAttribute === 'uploadimage';
+              var dataWidgetAttribute = element.attributes['data-widget'];
+              var dataCkeUploadIdAttribute = element.attributes['data-cke-upload-id'];
+              var isUploadImageWidget = dataWidgetAttribute === 'uploadimage';
               // Cleanup data-widget attributes on images. Except for 'uploadimage' which is only cleaned up when
               // the image is not currently being uploaded (i.e., has a data-cke-upload-id attribute)
               if (!isUploadImageWidget || dataCkeUploadIdAttribute === undefined)
