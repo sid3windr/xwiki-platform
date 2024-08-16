@@ -130,6 +130,10 @@
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+    </dependency>
 
     <!-- Used by parse groovy from page -->
     <!-- Note: We only depend on the miniumum required to compile oldcore since the distributions will depend on
@@ -163,6 +167,11 @@
     <dependency>
       <groupId>org.hibernate.validator</groupId>
       <artifactId>hibernate-validator</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mortbay.jasper</groupId>
+      <artifactId>apache-el</artifactId>
       <scope>runtime</scope>
     </dependency>
     <dependency>
@@ -901,7 +910,7 @@
                 **/web/ViewrevAction.java,
                 **/web/XWikiAction.java,
                 **/web/XWikiConfigurationService.java,
-                **/web/XWikiContextInitializationFilter.java,
+                **/web/XWikiContextInitializer.java,
                 **/web/XWikiDefaultURLFactory.java,
                 **/web/XWikiEngineContext.java,
                 **/web/XWikiForm.java,
