@@ -56,6 +56,8 @@ import org.xwiki.rest.internal.RangeIterable;
 import org.xwiki.rest.internal.Utils;
 import org.xwiki.rest.model.jaxb.Attachment;
 import org.xwiki.rest.model.jaxb.Attachments;
+import org.xwiki.security.authorization.ContextualAuthorizationManager;
+import org.xwiki.security.authorization.Right;
 
 import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiContext;
@@ -113,6 +115,9 @@ public class BaseAttachmentsResource extends XWikiResource
     }
 
     @Inject
+    protected ContextualAuthorizationManager authorization;
+
+    @Inject
     private ModelFactory modelFactory;
 
     @Inject
@@ -152,7 +157,11 @@ public class BaseAttachmentsResource extends XWikiResource
 
             List<Object> queryResults = getAttachmentsQuery(scope, filters).setLimit(limit).setOffset(offset).execute();
             attachments.withAttachments(queryResults.stream().map(this::processAttachmentsQueryResult)
+                // Apply passed filters
                 .filter(getFileTypeFilter(filters.getOrDefault(FILTER_FILE_TYPES, "")))
+                // Filter out attachments the current user is not allowed to see
+                .filter(a -> authorization.hasAccess(Right.VIEW, a.getReference()))
+                // Convert XWikiAttachment to REST Attachment
                 .map(xwikiAttachment -> toRestAttachment(xwikiAttachment, withPrettyNames))
                 .collect(Collectors.toList()));
         } catch (QueryException e) {
@@ -160,7 +169,7 @@ public class BaseAttachmentsResource extends XWikiResource
         } finally {
             xcontext.setWikiId(database);
         }
-
+        
         return attachments;
     }
 
