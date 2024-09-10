@@ -50,7 +50,6 @@
     <platform.version>${commons.version}</platform.version>
 
     <!-- Dependencies versions -->
-    <bootstrap.version>3.4.1</bootstrap.version>
     <batik.version>1.17</batik.version>
     <restlet.version>2.3.12</restlet.version>
     <tika.version>2.9.2</tika.version>
@@ -495,12 +494,6 @@
       </dependency>
       <dependency>
         <groupId>org.webjars</groupId>
-        <artifactId>bootstrap</artifactId>
-        <version>${bootstrap.version}</version>
-        <scope>runtime</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.webjars</groupId>
         <artifactId>Keypress</artifactId>
         <version>${keypress.version}</version>
         <scope>runtime</scope>
@@ -516,12 +509,24 @@
         <artifactId>bootstrap-daterangepicker</artifactId>
         <version>3.1</version>
         <scope>runtime</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.webjars</groupId>
         <artifactId>selectize.js</artifactId>
         <version>0.13.3</version>
         <scope>runtime</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <!-- All Batik artifacts should be in sync -->
